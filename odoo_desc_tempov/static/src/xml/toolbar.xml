@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="us_ai_translation.toolbar" t-inherit="web_editor.toolbar" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[@id='toolbar']" position="inside">
+            <div class="btn-group">
+                <button id="ai_translate_text" class="btn text-white" type="button">Translate</button>
+            </div>
+        </xpath>
+    </t>
+
+</templates>

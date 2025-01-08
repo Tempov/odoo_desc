@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="us_ai_translation.AITranslateWebsiteDialog" owl="1">
+        <Dialog title="'AI Translation'" size="'md'">
+            <div class="row">
+                <div class="col-6">
+                    <Dropdown togglerClass="'btn btn-secondary'" showCaret="true">
+                        <t t-set-slot="toggler">
+                            <span class="fa fa-language"/>
+                            Language
+                        </t>
+                        <div class="p-2">
+                            <t t-foreach="websiteLanguages" t-as="lang" t-key="lang.id">
+                                <CheckBox value="state.languages.includes(lang.code)" onChange.bind="(isChecked) => this.setLanguage(isChecked, lang.code)">
+                                    <t t-esc="lang.name"/>
+                                </CheckBox>
+                            </t>
+                        </div>
+                    </Dropdown>
+
+                    <div class="us_ai_checkbox mt-2">
+                        <CheckBox value="false" onChange.bind="setTranslateMenu">
+                            Translate menu
+                        </CheckBox>
+                    </div>
+
+                    <div class="us_ai_checkbox mt-2">
+                        <CheckBox value="true" onChange.bind="setTranslatePage">
+                            Translate page
+                        </CheckBox>
+                    </div>
+
+                    <div class="us_ai_checkbox mt-2">
+                        <CheckBox value="false" onChange.bind="setTranslateFooter">
+                            Translate footer
+                        </CheckBox>
+                    </div>
+
+                    <div class="us_ai_checkbox mt-4">
+                        <CheckBox value="true" onChange.bind="setOnlyUntranslatedText">
+                            Translate only untranslated text
+                        </CheckBox>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <t t-set="creativity_level_title" t-value="'Creativity Level (0.0 to 2.0) — controls the level of creativity in the responses.\n'+
+                                                               'Higher values (e.g., 1.0 or above) make the outputs more diverse and creative, '+
+                                                               'while lower values (e.g., 0.1) result in more focused, logical, and predictable outputs.\n'+
+                                                               'Higher creativity level are recommended for generating original ideas, '+
+                                                               'while lower ones are better for formal and precise answers.\n'+
+                                                               'It is recommended to adjust only one parameter (Creativity Level or Focus Level) at a time for predictable results.\n'+
+                                                               'If modifying both simultaneously, do so carefully to avoid unexpected outcomes.'"/>
+                    <t t-set="focus_level_title" t-value="'Focus Level (0.1 to 1.0) — sets the probability threshold for word selection in responses.\n'+
+                                                          'Higher values (e.g., 0.9 or above) include a broader range of word choices, '+
+                                                          'resulting in more diverse answers. Lower values (e.g., 0.1) limit the selection '+
+                                                          'to the most likely words, making the response more focused and precise.\n'+
+                                                          'Useful when high confidence is required in the answers.\n'+
+                                                          'It is recommended to adjust only one parameter (Creativity Level or Focus Level) at a time for predictable results.\n'+
+                                                          'If modifying both simultaneously, do so carefully to avoid unexpected outcomes.'"/>
+
+                    <div>
+                        <label for="creativity_level" class="form-label">
+                            Creativity Level
+                            <sup class="text-info" t-att-title="creativity_level_title">?</sup>
+                        </label>
+                        <input type="range" class="form-range"
+                               step="0.1" min="0" max="2"
+                               id="creativity_level" t-model="state.creativity_level"/>
+                        <span t-esc="state.creativity_level"
+                              class="text-nowrap"/>
+                    </div>
+                    <div class="mt-3">
+                        <label for="focus_level" class="form-label">
+                            Focus Level
+                            <sup class="text-info" t-att-title="focus_level_title">?</sup>
+                        </label>
+                        <input type="range" class="form-range"
+                               step="0.1" min="0.1" max="1"
+                               id="focus_level" t-model="state.focus_level"/>
+                        <span t-esc="state.focus_level"
+                              class="text-nowrap"/>
+                    </div>
+                </div>
+            </div>
+
+            <t t-set-slot="footer">
+                <t t-set=""/>
+                <button t-attf-class="btn btn-primary"
+                        t-on-click="translate">
+                    Translate
+                </button>
+                <button class="btn" t-on-click="close">Cancel</button>
+            </t>
+        </Dialog>
+    </t>
+</templates>
